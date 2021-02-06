@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TablesRequest;
+use App\Models\TableUses;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class TablesCrudController
@@ -21,7 +23,7 @@ class TablesCrudController extends CrudController
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
-     * 
+     *
      * @return void
      */
     public function setup()
@@ -33,7 +35,7 @@ class TablesCrudController extends CrudController
 
     /**
      * Define what happens when the List operation is loaded.
-     * 
+     *
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
@@ -44,13 +46,13 @@ class TablesCrudController extends CrudController
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
          */
     }
 
     /**
      * Define what happens when the Create operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-create
      * @return void
      */
@@ -63,18 +65,36 @@ class TablesCrudController extends CrudController
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
+         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
     }
 
     /**
      * Define what happens when the Update operation is loaded.
-     * 
+     *
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function getReservations()
+    {
+        $list = TableUses::all();
+
+        $events = [];
+        foreach ($list as $item) {
+
+            $events[] = [
+                'id' => $item->id,
+                'title' => $item->table->name . '|' . $item->user_name . ' ' . $item->user_phone,
+                'start' => $item->from_date,
+                'end' => $item->to_date,
+            ];
+        }
+
+        return response()->json($events, JsonResponse::HTTP_OK);
     }
 }

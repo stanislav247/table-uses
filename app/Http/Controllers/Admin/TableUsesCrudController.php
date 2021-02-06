@@ -6,6 +6,7 @@ use App\Http\Requests\TableUsesRequest;
 use App\Models\Tables;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Carbon\Carbon;
 
 /**
  * Class TableUsesCrudController
@@ -57,11 +58,13 @@ class TableUsesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
+        $from_date = request()->get('from_date', Carbon::today());
+        $to_date = Carbon::parse($from_date)->addHour()->toDateTimeString();
         CRUD::setValidation(TableUsesRequest::class);
 
         CRUD::setFromDb(); // fields
-        CRUD::field('from_date')->type('datetime_picker');
-        CRUD::field('to_date')->type('datetime_picker');
+        CRUD::field('from_date')->type('datetime_picker')->value($from_date);
+        CRUD::field('to_date')->type('datetime_picker')->value($to_date);
         CRUD::field('table_id')
             ->type('select')
             ->entity('Tables')

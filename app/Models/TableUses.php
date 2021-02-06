@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class TableUses extends Model
 {
-    use CrudTrait;
+    use HasFactory, Notifiable, CrudTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +36,11 @@ class TableUses extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function table()
+    {
+        return $this->belongsTo(Tables::class, 'table_id', 'id');
+    }
 
     /*
     |--------------------------------------------------------------------------
