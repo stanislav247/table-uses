@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::get('get-events', [TablesCrudController::class, 'getReservations'])->name('table.reservations');
+Route::get('test-email', [JobController::class, 'enqueue']); // add name later

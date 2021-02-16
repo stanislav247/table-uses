@@ -58,13 +58,19 @@ class TableUsesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $from_date = request()->get('from_date', Carbon::today());
-        $to_date = Carbon::parse($from_date)->addHour()->toDateTimeString();
+        $from_date = request()->get('from_date', null);
         CRUD::setValidation(TableUsesRequest::class);
 
         CRUD::setFromDb(); // fields
-        CRUD::field('from_date')->type('datetime_picker')->value($from_date);
-        CRUD::field('to_date')->type('datetime_picker')->value($to_date);
+        CRUD::field('from_date')->type('datetime_picker');
+        CRUD::field('to_date')->type('datetime_picker');
+
+        if (!empty($from_date)) {
+            $to_date = Carbon::parse($from_date)->addHour()->toDateTimeString();
+            CRUD::field('from_date')->value($from_date);
+            CRUD::field('to_date')->value($to_date);
+        }
+
         CRUD::field('table_id')
             ->type('select')
             ->entity('Tables')

@@ -40,6 +40,12 @@
         headerToolbar: {
             center: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
+        eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false,
+                hour12: false
+            },
         views: {
             dayGridMonth: {},
             timeGridWeek: {

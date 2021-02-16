@@ -89,7 +89,7 @@ class TablesCrudController extends CrudController
 
             $events[] = [
                 'id' => $item->id,
-                'title' => $item->table->name . '|' . $item->user_name . ' ' . $item->user_phone,
+                'title' => $item->tables->name . '|' . $item->user_name . ' ' . $item->user_phone,
                 'start' => $item->from_date,
                 'end' => $item->to_date,
             ];

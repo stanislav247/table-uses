@@ -23,7 +23,6 @@ class TableUses extends Model
     protected $guarded = ['id'];
     protected $fillable = ['from_date', 'to_date', 'user_name', 'user_phone', 'table_id'];
     // protected $hidden = [];
-    protected $dates = ['from_date', 'to_date'];
 
     /*
     |--------------------------------------------------------------------------
@@ -37,7 +36,7 @@ class TableUses extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function table()
+    public function tables()
     {
         return $this->belongsTo(Tables::class, 'table_id', 'id');
     }

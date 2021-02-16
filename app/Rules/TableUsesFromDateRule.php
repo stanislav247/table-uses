@@ -33,11 +33,13 @@ class TableUsesFromDateRule implements Rule
         $id = request()->route('id');
         $exists = TableUses::whereTableId($table_id)
             ->where('id', '!=', $id)
+            ->whereTableId(request()->get('table_id'))
             ->whereBetween('from_date', [$from_date, $to_date])
             ->exists();
 
         $exist2 = TableUses::whereTableId($table_id)
             ->where('id', '!=', $id)
+            ->whereTableId(request()->get('table_id'))
             ->where('from_date', '<', $from_date)
             ->where('to_date', '>', $from_date)
             ->exists();
